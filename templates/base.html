@@ -1,0 +1,39 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta name="google-site-verification" content="3lJ_1tiQG0iSQxh3QEwJVh95kN7gcjQatWeBij3sfUM" />
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/> 
+    <title>{{ escape(handler.settings["blog_title"]) }}</title>
+    <link rel="stylesheet" href="{{ static_url("css/blog.css") }}" type="text/css"/>
+    <link rel="stylesheet" href="{{ static_url("css/cyborg.min.css") }}" type="text/css"/>
+    <script src="https://google-code-prettify.googlecode.com/svn/loader/run_prettify.js?skin=desert" ></script>
+    <link rel="alternate" href="/feed" type="application/atom+xml" title="{{ escape(handler.settings["blog_title"]) }}"/>
+    {% block head %}{% end %}
+  </head>
+  <body style>
+      <div class="navbar navbar-fixed-top">
+          <div class="navbar-inner">
+              <div class="container">
+                  <div id="headline" class="brand">{{ escape(handler.settings["blog_title"]) }}</div>
+                  <ul class="nav nav-pills">
+                      <li><a href="/">Home </a></li>
+                      <li><a href="http://cherry.sqweeb.net" target="_blank">CherryMusic</a></li>
+		      <li><a href="http://airtime.sqweeb.net:8000" target="_blank">Radio</a></li>
+                  </ul>
+                  <ul class="nav nav-pills navbar-right">
+                      {% if current_user %}
+                          <li><a href="/compose">{{ _("New post") }}</a></li>
+                          <li><a href="/auth/logout?next={{ url_escape(request.uri) }}" class="navbar-link">{{ _("Sign out") }}</a></li>
+                      {% else %}
+                          {% raw _('<li><a href="%(url)s class="navbar-link"">Sign in</a></li>') % {"url": "/auth/login?next=" + url_escape(request.uri)} %}
+                      {% end %}
+                   </ul>
+              </div>
+          </div>
+      </div>
+  <div id="body">
+      <div id="content">{% block body %}{% end %}</div>
+  </div>
+  {% block bottom %}{% end %}
+  </body>
+</html>

@@ -1,0 +1,35 @@
+[E 150511 14:41:41 torndb:103] Cannot connect to MySQL on 127.0.0.1:3306
+    Traceback (most recent call last):
+      File "/usr/local/lib/python2.7/dist-packages/torndb.py", line 100, in __init__
+        self.reconnect()
+      File "/usr/local/lib/python2.7/dist-packages/torndb.py", line 117, in reconnect
+        self._db = MySQLdb.connect(**self._db_args)
+      File "/usr/local/lib/python2.7/dist-packages/MySQLdb/__init__.py", line 81, in Connect
+        return Connection(*args, **kwargs)
+      File "/usr/local/lib/python2.7/dist-packages/MySQLdb/connections.py", line 193, in __init__
+        super(Connection, self).__init__(*args, **kwargs2)
+    OperationalError: (2003, "Can't connect to MySQL server on '127.0.0.1' (111)")
+Traceback (most recent call last):
+  File "/home/blog/blog.py", line 256, in <module>
+    main()
+  File "/home/blog/blog.py", line 250, in main
+    http_server = tornado.httpserver.HTTPServer(Application())
+  File "/home/blog/blog.py", line 75, in __init__
+    self.maybe_create_tables()
+  File "/home/blog/blog.py", line 79, in maybe_create_tables
+    self.db.get("SELECT COUNT(*) from entries;")
+  File "/usr/local/lib/python2.7/dist-packages/torndb.py", line 148, in get
+    rows = self.query(query, *parameters, **kwparameters)
+  File "/usr/local/lib/python2.7/dist-packages/torndb.py", line 134, in query
+    cursor = self._cursor()
+  File "/usr/local/lib/python2.7/dist-packages/torndb.py", line 229, in _cursor
+    self._ensure_connected()
+  File "/usr/local/lib/python2.7/dist-packages/torndb.py", line 225, in _ensure_connected
+    self.reconnect()
+  File "/usr/local/lib/python2.7/dist-packages/torndb.py", line 117, in reconnect
+    self._db = MySQLdb.connect(**self._db_args)
+  File "/usr/local/lib/python2.7/dist-packages/MySQLdb/__init__.py", line 81, in Connect
+    return Connection(*args, **kwargs)
+  File "/usr/local/lib/python2.7/dist-packages/MySQLdb/connections.py", line 193, in __init__
+    super(Connection, self).__init__(*args, **kwargs2)
+_mysql_exceptions.OperationalError: (2003, "Can't connect to MySQL server on '127.0.0.1' (111)")
