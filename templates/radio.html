@@ -10,11 +10,10 @@
       });
     </script>
     <p>Stream: <span id="server-name"></span> - <span id="description"></span></p>
-    <p>Bitrate: <span id="bitrate"></span>kbps - Genre: <span id="genre"></span></p>
+    <p>Bitrate: <span id="bitrate"></span>kbps</p>
+    <p>Genre: <span id="genre"></span></p>
     <p>Listeners: <span id="listeners"></span></p>
     <p>Current track: <span id="track-title"></span></p>
-    <audio autoplay="autoplay">
-        <source src="http://airtime.sqweeb.net:8000/radio" type="audio/mp3" />
-    </audio>
+    <audio src="http://airtime.sqweeb.net:8000/radio" type="audio/mp3" ></audio>
 
 {% end %}
