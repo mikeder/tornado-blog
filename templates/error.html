@@ -1,5 +1,11 @@
 {% extends "base.html" %}
 
 {% block body %}
-  Error: {{ error }}
+  {% if error == 404 %}
+    Error: {{ error }} <br>
+    The page you are looking for could not be found.
+  {% else %}
+    Error: {{ error }} <br>
+    The server encountered an error while performing your request.
+  {% end %}
 {% end %}
