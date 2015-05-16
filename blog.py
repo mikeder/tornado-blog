@@ -55,6 +55,7 @@ class Application(tornado.web.Application):
             (r"/auth/create", AuthCreateHandler),
             (r"/auth/login", AuthLoginHandler),
             (r"/auth/logout", AuthLogoutHandler),
+            (r".*", BaseHandler),
         ]
         settings = dict(
             blog_title=u"Sqweebnet",
