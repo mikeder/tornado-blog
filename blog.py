@@ -55,6 +55,7 @@ class Application(tornado.web.Application):
             (r"/auth/create", AuthCreateHandler),
             (r"/auth/login", AuthLoginHandler),
             (r"/auth/logout", AuthLogoutHandler),
+            (r"/radio", RadioHandler),
             (r".*", BaseHandler),
         ]
         settings = dict(
@@ -106,6 +107,9 @@ class BaseHandler(tornado.web.RequestHandler):
     def any_author_exists(self):
         return bool(self.db.get("SELECT * FROM authors LIMIT 1"))
 
+class RadioHandler(BaseHandler):
+    def get(self):
+        self.render("radio.html")
 
 class HomeHandler(BaseHandler):
     def get(self):
