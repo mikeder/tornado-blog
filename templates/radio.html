@@ -1,53 +1,13 @@
 {% extends "base.html" %}
 
 {% block body %}
-    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
-    <script type="text/javascript" src="{{ static_url("js/jquery.jplayer.min.js") }}></script>
-    <script type="text/javascript">
-    //<![CDATA[
-    $(document).ready(function(){
-
-        $("#jquery_jplayer_1").jPlayer({
-            ready: function (event) {
-                $(this).jPlayer("setMedia", {
-                    mp3:"http://airtime.sqweeb.net:8000/1"
-                });
-            },
-            swfPath: "js",
-            supplied: "mp3",
-            wmode: "window",
-            smoothPlayBar: true,
-            keyEnabled: true
-        });
-    });
-    //]]>
+    <script src="{{ static_url("audiojs/audio.min.js") }}"></script>
+    <script>
+      audiojs.events.ready(function() {
+        var as = audiojs.createAll();
+      });
     </script>
-
-    <div id="jquery_jplayer_1" class="jp-jplayer"></div>
-
-    <div id="jp_container_1" class="jp-audio-stream">
-    <div class="label">Sqweebnet - Dynamic Internet Radio</div>
-        <div class="jp-type-single">
-            <div class="jp-gui jp-interface">
-
-                <ul class="jp-controls">
-                    <li><a href="javascript:;" class="jp-play" tabindex="1">play</a></li>
-                    <li><a href="javascript:;" class="jp-pause" tabindex="1">pause</a></li>
-                    <li><a href="javascript:;" class="jp-mute" tabindex="1" title="mute">mute</a></li>
-                    <li><a href="javascript:;" class="jp-unmute" tabindex="1" title="unmute">unmute</a></li>
-                    <li><a href="javascript:;" class="jp-volume-max" tabindex="1" title="max volume">max volume</a></li>
-                </ul>
-
-                <div class="jp-volume-bar">
-                    <div class="jp-volume-bar-value"></div>
-                </div>
-
-            <div class="jp-no-solution">
-                <span>Update Required</span>
-                To play the media you will need to either update your browser to a recent version or update your <a href="http://get.adobe.com/flashplayer/" target="_blank">Flash plugin</a>.
-            </div>
-        </div>
-     </div>
-    </div>
-
+    <audio autoplay="autoplay">
+        <source src="http://airtime.sqweeb.net:8000/1" type="audio/mp3" />
+    </audio>
 {% end %}
