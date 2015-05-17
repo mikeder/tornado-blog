@@ -1,6 +1,6 @@
-### sqweebnet blog
+## sqweebnet blog
 
-## Next moves:
+### Next moves:
 
 * Convert blog into module
 * General server to handle all modules
