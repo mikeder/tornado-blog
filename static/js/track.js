@@ -1,7 +1,7 @@
 function radioTitle() {
 
 // this is the URL of the json.xml file located on your server.
-    var url = 'http://airtime.sqweeb.net:8000/json.xsl';
+    var url = 'http://sqweeb.net:8000/json.xsl';
 
 $.ajax({
    type: 'GET',
