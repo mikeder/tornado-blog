@@ -14,41 +14,9 @@
  * under the License.
  */
 
-.navbar-right {
-    float: right !important;
-    margin-right: -15px;
-}
-
-#body {
-  padding-top: 90px;
-  max-width: 61.5%;
+body {
+  padding-top: 70px;
   margin: auto;
-}
-
-#header {
-  padding: 5px;
-  padding-left: 10px;
-  padding-right: 10px;
-  margin-bottom: 1em;
-}
-
-#header,
-#header a {
-  color: white;
-}
-
-#header h1 a {
-  text-decoration: none;
-}
-
-#footer,
-#content {
-  margin-left: 10px;
-  margin-right: 10px;
-}
-
-#footer {
-  margin-top: 3em;
 }
 
 .entry h1 a {
