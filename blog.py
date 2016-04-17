@@ -55,6 +55,7 @@ class Application(tornado.web.Application):
             (r"/auth/create", AuthCreateHandler),
             (r"/auth/login", AuthLoginHandler),
             (r"/auth/logout", AuthLogoutHandler),
+            (r"/upload", UploadHandler),
             (r".*", BaseHandler),
         ]
         settings = dict(
@@ -234,6 +235,33 @@ class AuthLogoutHandler(BaseHandler):
 class EntryModule(tornado.web.UIModule):
     def render(self, entry):
         return self.render_string("modules/entry.html", entry=entry, offset=offset())
+
+class UploadHandler(BaseHandler):
+    @tornado.web.authenticated
+    def post(self):
+        files = []
+        # check whether the request contains files that should get uploaded
+        try:
+          files = self.request.files['files']
+        except:
+          pass
+        # for each file that should get uploaded
+        for xfile in files:
+            # get the default file name
+            file = xfile['filename']
+            # the filename should not contain any "evil" special characters
+            # basically "evil" characters are all characters that allows you to break out from the upload directory
+            index = file.rfind(".")
+            filename = file[:index].replace(".", "") + str(time.time()).replace(".", "") + file[index:]
+            filename = filename.replace("/", "")
+            # save the file in the upload folder
+            with open("uploads/%s" % (filename), "w") as out:
+                # Be aware, that the user may have uploaded something evil like an executable script ...
+                # so it is a good idea to check the file content (xfile['body']) before saving the file
+                out.write(xfile['body'])
+
+    def get(self):
+        self.render("upload.html")
 
 def offset():
     isdst = time.localtime().tm_isdst
