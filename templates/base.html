@@ -10,10 +10,11 @@
     <title>{{ escape(handler.settings["blog_title"]) }}</title>
     <!-- Stylesheets -->
     <link rel="stylesheet" href="{{ static_url("css/bootstrap.css") }}" type="text/css"/>
-    <!-- <link rel="stylesheet" href="{{ static_url("css/cyborg.min.css") }}" type="text/css"/> -->
     <link rel="stylesheet" href="{{ static_url("css/blog.css") }}" type="text/css"/>
     <!-- Pretty Print CDN -->
-    <script src="https://cdn.rawgit.com/google/code-prettify/master/loader/run_prettify.js?skin=sunburst"></script>
+    <script src="https://cdn.rawgit.com/google/code-prettify/master/loader/run_prettify.js"></script>
+    <!-- Pretty Print Theme -->
+    <link rel="stylesheet" href="{{ static_url("css/tomorrow-night.css") }}" type="text/css"/>
     <!-- XML Feed -->
     <link rel="alternate" href="/feed" type="application/atom+xml" title="{{ escape(handler.settings['blog_title']) }}"/>
     {% block head %}{% end %}
