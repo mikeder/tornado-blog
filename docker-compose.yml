@@ -4,16 +4,19 @@ services:
   mysqldb:
     image: mysql
     hostname: mysqldb
-    ports:
-      - "3306:3306"
     environment:
-      - MYSQL_ROOT_PASSWORD=blog
+      - MYSQL_ROOT_PASSWORD=root
       - MYSQL_DATABASE=blog
+    healthcheck:
+      test: bash -c "mysql -uroot -proot --execute=\"SHOW DATABASES\";"
+      interval: 5s
+      timeout: 1s
+      retries: 15
 
   blog:
     depends_on:
       mysqldb:
-        condition: service_started
+        condition: service_healthy
     build:
       context: .
       args:

@@ -1,7 +1,7 @@
 FROM python:2.7-slim
 
 ARG port="8000"
-ARG mysql_host="mysql"
+ARG mysql_host="mysqldb"
 ARG mysql_database="blog"
 ARG mysql_user="blog"
 ARG mysql_password="blog"
