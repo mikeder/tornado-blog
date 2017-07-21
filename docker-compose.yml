@@ -1,0 +1,28 @@
+version: '2.1'
+
+services:
+  mysqldb:
+    image: mysql
+    hostname: mysqldb
+    ports:
+      - "3306:3306"
+    environment:
+      - MYSQL_ROOT_PASSWORD=blog
+      - MYSQL_DATABASE=blog
+
+  blog:
+    depends_on:
+      mysqldb:
+        condition: service_started
+    build:
+      context: .
+      args:
+        - port=8000
+        - mysql_host="mysqldb"
+        - mysql_database="blog"
+        - mysql_user="root"
+        - mysql_password="blog"
+    links:
+      - mysqldb:mysqldb
+    ports:
+      - "8000:8000"
