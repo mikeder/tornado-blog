@@ -2,13 +2,12 @@ version: '2.1'
 
 services:
   mysqldb:
-    image: mysql
-    hostname: mysqldb
+    image: mysql:5.6
     environment:
       - MYSQL_ROOT_PASSWORD=root
       - MYSQL_DATABASE=blog
     healthcheck:
-      test: bash -c "mysql -uroot -proot --execute=\"SHOW DATABASES\";"
+      test: "mysql -uroot -proot --execute \"SHOW DATABASES;\""
       interval: 5s
       timeout: 1s
       retries: 15
@@ -21,10 +20,10 @@ services:
       context: .
       args:
         - port=8000
-        - mysql_host="mysqldb"
-        - mysql_database="blog"
-        - mysql_user="root"
-        - mysql_password="blog"
+        - mysql_host=mysqldb
+        - mysql_database=blog
+        - mysql_user=root
+        - mysql_password=root
     links:
       - mysqldb:mysqldb
     ports:
