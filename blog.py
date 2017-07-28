@@ -58,7 +58,7 @@ class Application(tornado.web.Application):
             (r".*", BaseHandler),
         ]
         settings = dict(
-            blog_title=u"Sqweebnet",
+            blog_title=u"",
             template_path=os.path.join(os.path.dirname(__file__), "templates"),
             static_path=os.path.join(os.path.dirname(__file__), "static"),
             ui_modules={"Entry": EntryModule},
@@ -84,7 +84,7 @@ class Application(tornado.web.Application):
                                    '--database=' + options.mysql_database,
                                    '--user=' + options.mysql_user,
                                    '--password=' + options.mysql_password],
-                                  stdin=open('schema.sql'))
+                                  stdin=open("schema.sql"))
 
 
 class BaseHandler(tornado.web.RequestHandler):

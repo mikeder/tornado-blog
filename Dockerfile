@@ -12,7 +12,7 @@ ENV PORT=${port} \
     MYSQL_USER=${mysql_user} \
     MYSQL_PASSWORD=${mysql_password} \
     INSTALL_PATH=/var/www/blog \
-    PYTHONPATH=/usr/local/lib/python2.7/site-packages/:$SERVICE_PATH \
+    PYTHONPATH=/usr/local/lib/python2.7/site-packages/:$INSTALL_PATH \
     BUILD_PACKAGES="build-essential" \
     DEV_PACKAGES="python-dev libldap2-dev libsasl2-dev libcurl4-openssl-dev libmysqlclient-dev libssl-dev libffi-dev"
 
@@ -25,5 +25,7 @@ RUN cd $INSTALL_PATH && \
     pip install --no-cache-dir -r requirements.txt && \
     env | grep PYTHON >> /etc/environment
 
+WORKDIR $INSTALL_PATH
+
 EXPOSE ${port}
-CMD ["python", "/var/www/blog/blog.py"]
+CMD ["python", "blog.py"]
