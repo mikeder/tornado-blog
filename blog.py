@@ -43,6 +43,7 @@ define("mysql_password", default=os.getenv('MYSQL_PASSWORD'), help="blog databas
 # A thread pool to be used for password hashing with bcrypt.
 executor = concurrent.futures.ThreadPoolExecutor(2)
 
+
 class Application(tornado.web.Application):
     def __init__(self):
         handlers = [
@@ -106,6 +107,7 @@ class BaseHandler(tornado.web.RequestHandler):
     def any_author_exists(self):
         return bool(self.db.get("SELECT * FROM authors LIMIT 1"))
 
+
 class HomeHandler(BaseHandler):
     def get(self):
         entries = self.db.query("SELECT * FROM entries ORDER BY published "
@@ -129,12 +131,14 @@ class ArchiveHandler(BaseHandler):
                                 "DESC")
         self.render("archive.html", entries=entries, offset=offset())
 
+
 class FeedHandler(BaseHandler):
     def get(self):
         entries = self.db.query("SELECT * FROM entries ORDER BY published "
                                 "DESC LIMIT 10")
         self.set_header("Content-Type", "application/atom+xml")
         self.render("feed.xml", entries=entries)
+
 
 class ComposeHandler(BaseHandler):
     @tornado.web.authenticated
@@ -235,6 +239,7 @@ class EntryModule(tornado.web.UIModule):
     def render(self, entry):
         return self.render_string("modules/entry.html", entry=entry, offset=offset())
 
+
 class UploadHandler(BaseHandler):
     @tornado.web.authenticated
     def post(self):
@@ -262,13 +267,15 @@ class UploadHandler(BaseHandler):
     def get(self):
         self.render("upload.html")
 
-def offset():
+
+def t_offset():
     isdst = time.localtime().tm_isdst
     if isdst:
         offset = 240
     else:
         offset = 300
     return offset
+
 
 def main():
     tornado.options.parse_command_line()
