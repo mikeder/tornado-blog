@@ -1,5 +1,5 @@
 node("docker") {
-    docker.withRegistry('docker-01.sqweeb.net:32772/blog', '') {
+    docker.withRegistry('mikeder/tornado-blog', '') {
 
         git url: "https://github.com/mikeder/tornado-blog.git", credentialsId: 'mikeder-github'
 
