@@ -58,7 +58,7 @@ class Application(tornado.web.Application):
             (r".*", BaseHandler),
         ]
         settings = dict(
-            blog_title=u"",
+            blog_title=u"SqweebNet",
             template_path=os.path.join(os.path.dirname(__file__), "templates"),
             static_path=os.path.join(os.path.dirname(__file__), "static"),
             ui_modules={"Entry": EntryModule},
