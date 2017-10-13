@@ -1,17 +1,17 @@
-FROM python:2.7-slim
+FROM python:2.7
 
 ARG port="8000"
 ARG mysql_host="mysqldb"
 ARG mysql_database="blog"
-ARG mysql_user="blog"
-ARG mysql_password="blog"
+ARG mysql_user="root"
+ARG mysql_password="root"
 
 ENV PORT=${port} \
     MYSQL_HOST=${mysql_host} \
     MYSQL_DATABASE=${mysql_database} \
     MYSQL_USER=${mysql_user} \
     MYSQL_PASSWORD=${mysql_password} \
-    INSTALL_PATH=/var/www/blog \
+    INSTALL_PATH=/app \
     PYTHONPATH=/usr/local/lib/python2.7/site-packages/:$INSTALL_PATH \
     BUILD_PACKAGES="build-essential" \
     DEV_PACKAGES="python-dev libldap2-dev libsasl2-dev libcurl4-openssl-dev libmysqlclient-dev libssl-dev libffi-dev"

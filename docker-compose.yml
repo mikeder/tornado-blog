@@ -3,6 +3,8 @@ version: '2.1'
 services:
   mysqldb:
     image: mysql:5.6
+    ports:
+      - "3306:3306"
     environment:
       - MYSQL_ROOT_PASSWORD=root
       - MYSQL_DATABASE=blog
