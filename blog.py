@@ -268,7 +268,7 @@ class UploadHandler(BaseHandler):
         self.render("upload.html")
 
 
-def t_offset():
+def offset():
     isdst = time.localtime().tm_isdst
     if isdst:
         offset = 240
