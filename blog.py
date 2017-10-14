@@ -19,7 +19,9 @@ import concurrent.futures
 import MySQLdb
 import markdown
 import os.path
+import random
 import re
+import string
 import subprocess
 import time
 import torndb
@@ -64,9 +66,9 @@ class Application(tornado.web.Application):
             static_path=os.path.join(os.path.dirname(__file__), "static"),
             ui_modules={"Entry": EntryModule},
             xsrf_cookies=True,
-            cookie_secret="sad789fy23lkruhgoa87atgfwku13gf",
+            cookie_secret="random_string()",
             login_url="/auth/login",
-            debug=True,
+            debug=True
         )
         super(Application, self).__init__(handlers, **settings)
         # Have one global connection to the blog DB across all handlers
@@ -93,8 +95,8 @@ class BaseHandler(tornado.web.RequestHandler):
         super(BaseHandler, self).__init__(application, request)
 
     def write_error(self, status_code, **kwargs):
-        self.render("error.html", error=status_code)
-
+        self.render("error.html", error=status_code) 
+    
     @property
     def db(self):
         return self.application.db
@@ -276,6 +278,8 @@ def offset():
         offset = 300
     return offset
 
+def random_string(length=20, chars=string.ascii_uppercase + string.digits):
+    return ''.join(random.SystemRandom().choice(chars) for _ in range(length))
 
 def main():
     tornado.options.parse_command_line()
