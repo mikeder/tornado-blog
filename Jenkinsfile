@@ -9,8 +9,10 @@ pipeline {
             steps {
                 checkout scm
                 script{
-                    git rev-parse HEAD > commit
-                    def commit = readFile('commit').trim()
+                    def commit = sh(
+                        script: "git rev-parse HEAD",
+                        returnStdout: true
+                    ).trim()
                     def branch = ${env.GIT_BRANCH}
                 }
             }
