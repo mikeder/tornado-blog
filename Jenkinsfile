@@ -1,17 +1,30 @@
-node("testslave") {
-    docker.withRegistry('mikeder/tornado-blog', '') {
+pipeline {
+    agent {
+        label 'testslave'
+    }
 
-        git url: "https://github.com/mikeder/tornado-blog.git", credentialsId: 'mikeder-github'
+    stages {
 
-        sh "git rev-parse HEAD > .git/commit-id"
-        def commit_id = readFile('.git/commit-id').trim()
-        println commit_id
+        stage('Checkout SCM'){
+            checkout scm
+        }
 
-        stage "build"
-        def app = docker.build "tornado-blog"
+        stage('Build') {
+            steps {
+                sh 'docker build . -t mikeder/tornado-blog:${env.GIT_BRANCH}'
+            }
+        }
 
-        stage "publish"
-        app.push 'master'
-        app.push "${commit_id}"
+        stage('Test') {
+            steps {
+                sh 'docker images'
+            }
+        }
+
+        stage('Deploy') {
+            steps {
+                echo 'Deploying....'
+            }
+        }
     }
 }
