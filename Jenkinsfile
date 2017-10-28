@@ -14,8 +14,8 @@ pipeline {
                         returnStdout: true
                     ).trim()
                     def branch = env.BRANCH_NAME
+                    sh 'echo Working on branch: ${branch}'
                 }
-                echo 'Working on branch: '${branch}
             }
         }
 
