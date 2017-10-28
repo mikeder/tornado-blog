@@ -13,9 +13,9 @@ pipeline {
                         script: "git rev-parse HEAD",
                         returnStdout: true
                     ).trim()
-                    def branch = env.GIT_BRANCH
-                    echo 'Working on branch: ${branch}'
+                    def branch = env.BRANCH_NAME
                 }
+                echo 'Working on branch: ${branch}'
             }
         }
 
