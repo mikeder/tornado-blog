@@ -13,8 +13,7 @@ pipeline {
                         script: "git rev-parse HEAD",
                         returnStdout: true
                     ).trim()
-                    def branch = env.BRANCH_NAME
-                    sh 'echo Working on branch: ${branch}'
+                    echo env.BRANCH_NAME
                 }
             }
         }
@@ -22,7 +21,7 @@ pipeline {
         stage('Build') {
             steps {
                 script{
-                    sh "docker build . -t mikeder/tornado-blog:\${branch}"
+                    sh "docker build . -t mikeder/tornado-blog:${env.BRANCH_NAME}"
                 }
 
             }
