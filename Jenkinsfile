@@ -20,13 +20,18 @@ pipeline {
 
         stage('Build') {
             steps {
-                sh "docker build . -t mikeder/tornado-blog:${branch}"
+                script{
+                    sh "docker build . -t mikeder/tornado-blog:${branch}"
+                }
+
             }
         }
 
         stage('Test') {
             steps {
-                sh "docker images"
+                script {
+                    sh "docker images"
+                }
             }
         }
 
