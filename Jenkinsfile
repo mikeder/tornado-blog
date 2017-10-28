@@ -15,14 +15,14 @@ pipeline {
                     ).trim()
                     def branch = env.BRANCH_NAME
                 }
-                echo 'Working on branch: ${branch}'
+                echo 'Working on branch: '${branch}
             }
         }
 
         stage('Build') {
             steps {
                 script{
-                    sh "docker build . -t mikeder/tornado-blog:${branch}"
+                    sh "docker build . -t mikeder/tornado-blog:\${branch}"
                 }
 
             }
