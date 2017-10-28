@@ -20,7 +20,7 @@ pipeline {
 
         stage('Build') {
             steps {
-                sh "docker build . -t mikeder/tornado-blog:${branch}""
+                sh "docker build . -t mikeder/tornado-blog:${branch}"
             }
         }
 
