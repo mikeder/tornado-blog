@@ -8,12 +8,15 @@ pipeline {
         stage('Checkout SCM'){
             steps {
                 checkout scm
+                sh 'git rev-parse HEAD > commit'
+                def commit = readFile('commit').trim()
+                def branch = ${env.GIT_BRANCH}
             }
         }
 
         stage('Build') {
             steps {
-                sh 'docker build . -t mikeder/tornado-blog:${env.GIT_BRANCH}'
+                sh 'docker build . -t mikeder/tornado-blog:$branch'
             }
         }
 
