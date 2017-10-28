@@ -14,6 +14,7 @@ pipeline {
                         returnStdout: true
                     ).trim()
                     def branch = env.GIT_BRANCH
+                    echo 'Working on branch: ${branch}'
                 }
             }
         }
