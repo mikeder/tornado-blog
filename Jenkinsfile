@@ -13,7 +13,7 @@ pipeline {
                         script: "git rev-parse HEAD",
                         returnStdout: true
                     ).trim()
-                    def branch = ${env.GIT_BRANCH}
+                    def branch = env.GIT_BRANCH
                 }
             }
         }
