@@ -18,7 +18,7 @@ import bcrypt
 import concurrent.futures
 import MySQLdb
 import markdown
-import os.path
+import os
 import random
 import re
 import string
@@ -82,12 +82,14 @@ class Application(tornado.web.Application):
         try:
             self.db.get("SELECT COUNT(*) from entries;")
         except MySQLdb.ProgrammingError:
-            subprocess.check_call(['mysql',
-                                   '--host=' + options.mysql_host,
-                                   '--database=' + options.mysql_database,
-                                   '--user=' + options.mysql_user,
-                                   '--password=' + options.mysql_password],
-                                  stdin=open("schema.sql"))
+            sql_file = "{}/schema.sql".format(os.getcwd())
+            with open(sql_file, 'rb', 0) as sql:
+                subprocess.check_call(['mysql',
+                                       '--host=' + options.mysql_host,
+                                       '--database=' + options.mysql_database,
+                                       '--user=' + options.mysql_user,
+                                       '--password=' + options.mysql_password],
+                                      stdin=sql)
 
 
 class BaseHandler(tornado.web.RequestHandler):
