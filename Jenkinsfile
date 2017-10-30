@@ -18,26 +18,27 @@ pipeline {
             }
         }
 
-        stage('Build') {
+        stage('Build & Push Image') {
             steps {
-                script{
-                    sh "docker build . -t mikeder/tornado-blog:${env.BRANCH_NAME}"
+                dir (".") {
+	                script {
+	                    docker.withRegistry('https://index.docker.io/v1/', 'mikeder-dockerhub') {
+	                        def image = docker.build("mikeder/tornado-blog")
+		                    image.push("latest")
+		                    image.push("${env.BRANCH_NAME}-${env.BUILD_ID}")
+                            sh "docker rmi ${image.id}"
+	                    }
+	                }
                 }
-
             }
         }
 
-        stage('Test') {
+        stage('List Images') {
             steps {
                 script {
                     sh "docker images"
+                    sh "df -h"
                 }
-            }
-        }
-
-        stage('Deploy') {
-            steps {
-                echo 'Deploying....'
             }
         }
     }
