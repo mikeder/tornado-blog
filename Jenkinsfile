@@ -21,14 +21,14 @@ pipeline {
         stage('Build & Push Image') {
             steps {
                 dir (".") {
-	                script {
-	                    docker.withRegistry('https://index.docker.io/v1/', 'mikeder-dockerhub') {
-	                        def image = docker.build("mikeder/tornado-blog")
-		                    image.push("latest")
-		                    image.push("${env.BRANCH_NAME}-${env.BUILD_ID}")
-                            sh "docker rmi ${image.id}"
-	                    }
-	                }
+                    script {
+                        def image = docker.build("mikeder/tornado-blog")
+                        docker.withRegistry('https://index.docker.io/v1/', 'mikeder-dockerhub') {
+                            image.push("latest")
+                            image.push("${env.BRANCH_NAME}-${env.BUILD_ID}")
+                        }
+                        sh "docker rmi ${image.id}"
+                    }
                 }
             }
         }
