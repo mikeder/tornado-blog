@@ -11,5 +11,4 @@ clean-data: clean
 	@docker-compose -p blog rm -v mysqldb
 clean-images:
 	@docker rmi `docker images -q -f "dangling=true"`
-nuke-images:
-	@docker image prune -af
+
