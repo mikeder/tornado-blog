@@ -25,7 +25,6 @@ pipeline {
                         def image = docker.build("mikeder/tornado-blog")
                         docker.withRegistry('https://index.docker.io/v1/', 'mikeder-dockerhub') {
                             image.push("latest")
-                            image.push("${env.BRANCH_NAME}-${env.BUILD_ID}")
                         }
                         sh "docker rmi ${image.id}"
                     }
