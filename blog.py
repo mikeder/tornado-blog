@@ -82,6 +82,8 @@ class Application(tornado.web.Application):
         try:
             self.db.get("SELECT COUNT(*) from entries;")
         except MySQLdb.ProgrammingError:
+            # This bit is problematic in Docker land, for some reason it can't find the sql file
+            # TODO: find another way to bootstrap the database for local dev in docker land
             sql_file = "{}/schema.sql".format(os.getcwd())
             with open(sql_file, 'rb', 0) as sql:
                 subprocess.check_call(['mysql',
@@ -104,7 +106,7 @@ class BaseHandler(tornado.web.RequestHandler):
         return self.application.db
 
     def get_current_user(self):
-        user_id = self.get_secure_cookie("blogdemo_user")
+        user_id = self.get_secure_cookie("blog_user")
         if not user_id: return None
         return self.db.get("SELECT * FROM authors WHERE id = %s", int(user_id))
 
@@ -204,7 +206,7 @@ class AuthCreateHandler(BaseHandler):
             "VALUES (%s, %s, %s)",
             self.get_argument("email"), self.get_argument("name"),
             hashed_password)
-        self.set_secure_cookie("blogdemo_user", str(author_id))
+        self.set_secure_cookie("blog_user", str(author_id))
         self.redirect(self.get_argument("next", "/"))
 
 
@@ -218,8 +220,7 @@ class AuthLoginHandler(BaseHandler):
 
     @gen.coroutine
     def post(self):
-        author = self.db.get("SELECT * FROM authors WHERE email = %s",
-                             self.get_argument("email"))
+        author = self.db.get("SELECT * FROM authors WHERE email = %s", self.get_argument("email"))
         if not author:
             self.render("login.html", error="email not found")
             return
@@ -227,7 +228,7 @@ class AuthLoginHandler(BaseHandler):
             bcrypt.hashpw, tornado.escape.utf8(self.get_argument("password")),
             tornado.escape.utf8(author.hashed_password))
         if hashed_password == author.hashed_password:
-            self.set_secure_cookie("blogdemo_user", str(author.id))
+            self.set_secure_cookie("blog_user", str(author.id))
             self.redirect(self.get_argument("next", "/"))
         else:
             self.render("login.html", error="incorrect password")
@@ -235,7 +236,7 @@ class AuthLoginHandler(BaseHandler):
 
 class AuthLogoutHandler(BaseHandler):
     def get(self):
-        self.clear_cookie("blogdemo_user")
+        self.clear_cookie("blog_user")
         self.redirect(self.get_argument("next", "/"))
 
 
@@ -268,6 +269,7 @@ class UploadHandler(BaseHandler):
                 # so it is a good idea to check the file content (xfile['body']) before saving the file
                 out.write(xfile['body'])
 
+    @tornado.web.authenticated
     def get(self):
         self.render("upload.html")
 
@@ -280,8 +282,10 @@ def offset():
         offset = 300
     return offset
 
+
 def random_string(length=20, chars=string.ascii_uppercase + string.digits):
     return ''.join(random.SystemRandom().choice(chars) for _ in range(length))
+
 
 def main():
     tornado.options.parse_command_line()
