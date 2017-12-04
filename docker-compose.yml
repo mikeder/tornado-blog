@@ -16,8 +16,8 @@ services:
 
   blog:
     depends_on:
-      mysqldb:
-        condition: service_healthy
+     - mysqldb
+    restart: always
     build:
       context: .
       args:
@@ -30,3 +30,5 @@ services:
       - mysqldb:mysqldb
     ports:
       - "8000:8000"
+    healthcheck:
+      test: "curl http://localhost:8000"

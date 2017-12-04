@@ -22,7 +22,6 @@ import os
 import random
 import re
 import string
-import subprocess
 import time
 import torndb
 import tornado.escape
@@ -82,16 +81,9 @@ class Application(tornado.web.Application):
         try:
             self.db.get("SELECT COUNT(*) from entries;")
         except MySQLdb.ProgrammingError:
-            # This bit is problematic in Docker land, for some reason it can't find the sql file
-            # TODO: find another way to bootstrap the database for local dev in docker land
             sql_file = "{}/schema.sql".format(os.getcwd())
-            with open(sql_file, 'rb', 0) as sql:
-                subprocess.check_call(['mysql',
-                                       '--host=' + options.mysql_host,
-                                       '--database=' + options.mysql_database,
-                                       '--user=' + options.mysql_user,
-                                       '--password=' + options.mysql_password],
-                                      stdin=sql)
+            query = open(sql_file).read()
+            self.db.execute(query)
 
 
 class BaseHandler(tornado.web.RequestHandler):
@@ -249,12 +241,14 @@ class UploadHandler(BaseHandler):
     @tornado.web.authenticated
     def post(self):
         files = []
+        response = dict()
         # check whether the request contains files that should get uploaded
         try:
-          files = self.request.files['files']
-        except:
-          pass
-        # for each file that should get uploaded
+            files = self.request.files['files']
+            response['files'] = files
+        except Exception as e:
+            response['exc_message'] = e.message
+            pass
         for xfile in files:
             # get the default file name
             file = xfile['filename']
@@ -264,14 +258,18 @@ class UploadHandler(BaseHandler):
             filename = file[:index].replace(".", "") + str(time.time()).replace(".", "") + file[index:]
             filename = filename.replace("/", "")
             # save the file in the upload folder
-            with open("uploads/%s" % (filename), "w") as out:
-                # Be aware, that the user may have uploaded something evil like an executable script ...
-                # so it is a good idea to check the file content (xfile['body']) before saving the file
-                out.write(xfile['body'])
+            write_file(filename, xfile['body'])
+            response['status'] = 'OK'
+            self.write(response)
 
     @tornado.web.authenticated
     def get(self):
         self.render("upload.html")
+
+
+def write_file(a_key, a_value):
+    with open(a_key, "w") as out:
+        out.write(a_value)
 
 
 def offset():
