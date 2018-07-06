@@ -1,65 +1,62 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <!-- Google Verification Here -->
-    <meta name="google-site-verification" content="3lJ_1tiQG0iSQxh3QEwJVh95kN7gcjQatWeBij3sfUM" />
-    <!-- Title -->
-    <title>{{ escape(handler.settings["blog_title"]) }}</title>
-    <!-- Stylesheets -->
-    <link rel="stylesheet" href="{{ static_url('css/bootswatch-themes/slate/bootstrap.css') }}" type="text/css"/>
-    <link rel="stylesheet" href="{{ static_url('css/blog.css') }}" type="text/css"/>
-    <!-- Pretty Print CDN -->
-    <script src="https://cdn.rawgit.com/google/code-prettify/master/loader/run_prettify.js"></script>
-    <!-- Pretty Print Theme -->
-    <!-- <link rel="stylesheet" href="{{ static_url("css/pretty-print-themes/tomorrow-night-eighties.css") }}" type="text/css"/> -->
-    <!-- XML Feed -->
-    <link rel="alternate" href="/feed" type="application/atom+xml" title="{{ escape(handler.settings['blog_title']) }}"/>
-    {% block head %}{% end %}
-  </head>
-  <body>
-    <nav class="navbar navbar-default">
-      <div class="container-fluid">
-      <!-- Brand and toggle get grouped for better mobile display -->
-        <div class="navbar-header">
-          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-          <span class="sr-only">Toggle navigation</span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
+    <head>
+        <!-- Google Verification Here -->
+        <meta name="google-site-verification" content="3lJ_1tiQG0iSQxh3QEwJVh95kN7gcjQatWeBij3sfUM" />
+        <!-- Title -->
+        <title>{{ escape(handler.settings["blog_title"]) }}</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+        <link href="https://stackpath.bootstrapcdn.com/bootswatch/4.1.1/slate/bootstrap.min.css" rel="stylesheet" integrity="sha384-T5/MPhcu5PtijW3XQzMbwUJshIZS5VzRn+lpMXRN8EnZpxBc8yDYiGkTj7pTWBXQ" crossorigin="anonymous">
+
+        <!-- Pretty Print CDN -->
+        <script src="https://cdn.rawgit.com/google/code-prettify/master/loader/run_prettify.js"></script>
+        <link rel="stylesheet" href="{{ static_url('css/blog.css') }}" type="text/css"/>
+        <link rel="stylesheet" href="{{ static_url('css/prettyprint.css') }}" type="text/css"/>
+        <!-- XML Feed -->
+        <link rel="alternate" href="/feed" type="application/atom+xml" title="{{ escape(handler.settings['blog_title']) }}"/>
+        {% block head %}{% end %}
+    </head>
+    <body>
+        <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+          <a class="navbar-brand" href="/">SqweebNet</a>
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation" style="">
+            <span class="navbar-toggler-icon"></span>
           </button>
-          <a class="navbar-brand" href="/" title="Home">{{ escape(handler.settings["blog_title"]) }}</a>
+
+          <div class="collapse navbar-collapse" id="navbarColor01">
+            <ul class="navbar-nav mr-auto">
+              <li class="nav-item active">
+                <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="/archive">Archive</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="https://music.sqweeb.net">Music</a>
+              </li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                {% if current_user %}
+                    <li class="nav-item">
+                        <a href="/compose" class="nav-link">{{ _("New post") }}</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/auth/logout?next={{ url_escape(request.uri) }}" class="nav-link">{{ _("Sign out") }}</a>
+                    </li>
+                {% else %}
+                    <li class="nav-item">
+                        <a href="/auth/login" class="nav-link">Sign in</a>
+                    </li>
+                {% end %}
+            </ul>
+          </div>
+        </nav>
+        <div class="container" id="content">
+            {% block body %}{% end %}
         </div>
-        <!-- Collect the nav links, forms, and other content for toggling -->
-        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-          <ul class="nav navbar-nav">
-            <li><a href="https://sqweeb.net/archive">Archive</a></li>  
-            <li><a href="https://music.sqweeb.net">Music Streaming</a></li>
-              </ul>
-            </li>
-          </ul>
-          <ul class="nav navbar-nav navbar-right">
-            {% if current_user %}
-              <li><a href="/compose">{{ _("New post") }}</a></li>
-              <li><a href="/auth/logout?next={{ url_escape(request.uri) }}" class="navbar-link">{{ _("Sign out") }}</a></li>
-            {% else %}
-              <li><a href="/auth/login" class="navbar-link">Sign in</a></li>
-            {% end %}
-          </ul>
-        </div><!-- /.navbar-collapse -->
-      </div><!-- /.container-fluid -->
-    </nav>
-
-    <div class="container" id="content">
-
-      {% block body %}{% end %}
-
-    </div>
-    {% block bottom %}{% end %}
-    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
-    <script src="{{ static_url('js/bootstrap.min.js') }}"></script>
-  </body>
+        {% block bottom %}{% end %}
+    </body>
 </html>

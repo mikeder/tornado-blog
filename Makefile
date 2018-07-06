@@ -1,16 +1,16 @@
 build:
-	@docker-compose -p blog build
-	@docker-compose -p blog pull mysqldb
+	@docker-compose build blog
+	@docker-compose pull mysqldb
 restart:
 	@docker-compose restart blog
-run:
-	@docker-compose -p blog up -d
+run: build
+	@docker-compose up -d
 stop:
-	@docker-compose -p blog stop
+	@docker-compose down
 clean:	stop
-	@docker-compose -p blog rm blog
+	@docker-compose rm blog
 clean-data: clean
-	@docker-compose -p blog rm -v mysqldb
+	@docker-compose rm -v mysqldb
 clean-images:
 	@docker rmi `docker images -q -f "dangling=true"`
 nuke-images:
