@@ -14,7 +14,7 @@ ENV PORT=${port} \
     INSTALL_PATH=/usr/src/app \
     PYTHONPATH=/usr/local/lib/python2.7/site-packages/:/usr/src/app \
     BUILD_PACKAGES="build-essential" \
-    DEV_PACKAGES="python-dev libldap2-dev libsasl2-dev libcurl4-openssl-dev libmysqlclient-dev libssl-dev libffi-dev"
+    DEV_PACKAGES="python-dev libldap2-dev libsasl2-dev libcurl4-openssl-dev default-libmysqlclient-dev libssl-dev libffi-dev"
 
 RUN apt-get update
 RUN apt-get install -y -qq $BUILD_PACKAGES $DEV_PACKAGES

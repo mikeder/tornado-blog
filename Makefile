@@ -1,6 +1,8 @@
 build:
 	@docker-compose -p blog build
 	@docker-compose -p blog pull mysqldb
+restart:
+	@docker-compose restart blog
 run:
 	@docker-compose -p blog up -d
 stop:

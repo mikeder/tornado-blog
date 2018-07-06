@@ -15,6 +15,7 @@ services:
       retries: 15
 
   blog:
+    restart: always
     depends_on:
      - mysqldb
     restart: always
