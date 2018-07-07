@@ -1,31 +1,31 @@
 {% extends "base.html" %}
 
 {% block head %}
-  <style type="text/css">
-    ul.archive {
-      list-style-type: none;
-      margin: 0;
-      padding: 0;
-    }
+<style type="text/css">
+  ul.archive {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+  }
 
-    ul.archive li {
-      margin-bottom: 1em;
-    }
+  ul.archive li {
+    margin-bottom: 1em;
+  }
 
-    ul.archive .title {
-      font-family: "Helvetica Nue", Helvetica, Arial, sans-serif;
-      font-size: 14pt;
-    }
-  </style>
+  ul.archive .title {
+    font-family: "Helvetica Nue", Helvetica, Arial, sans-serif;
+    font-size: 14pt;
+  }
+</style>
 {% end %}
 
 {% block body %}
-  <ul class="archive">
-    {% for entry in entries %}
-      <li>
-        <div class="title"><a href="/entry/{{ entry.slug }}">{{ entry.title }}</a></div>
-        <div class="date">{{ locale.format_date(entry.published, gmt_offset=offset, full_format=True) }}</div>
-      </li>
-    {% end %}
-  </ul>
+<div class="list-group">
+  {% for entry in entries %}
+  <a href="/entry/{{ entry.slug }}" class="list-group-item">
+    <h4 class="list-group-item-heading">{{ entry.title }}</h4>
+    <p class="list-group-item-text">{{ locale.format_date(entry.published, gmt_offset=offset, full_format=True) }}</p>
+  </a>
+  {% end %}
+</div>
 {% end %}
