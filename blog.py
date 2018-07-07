@@ -214,7 +214,7 @@ class AuthLoginHandler(BaseHandler):
     def post(self):
         author = self.db.get("SELECT * FROM authors WHERE email = %s", self.get_argument("email"))
         if not author:
-            self.render("login.html", error="email not found")
+            self.render("login.html", error="Login failed, access denied!")
             return
         hashed_password = yield executor.submit(
             bcrypt.hashpw, tornado.escape.utf8(self.get_argument("password")),
@@ -223,7 +223,7 @@ class AuthLoginHandler(BaseHandler):
             self.set_secure_cookie("blog_user", str(author.id))
             self.redirect(self.get_argument("next", "/"))
         else:
-            self.render("login.html", error="incorrect password")
+            self.render("login.html", error="Login failed, access denied!")
 
 
 class AuthLogoutHandler(BaseHandler):
